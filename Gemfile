@@ -60,3 +60,7 @@ group :test do
 end
 
 gem "devise", "~> 4.9"
+
+group :development do
+  gem "rails_live_reload"
+end
