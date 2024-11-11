@@ -5,6 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable
 
-  has many :stocks
-  has many :transactions
+  has_many :stocks
+  has_many :transactions
 end
