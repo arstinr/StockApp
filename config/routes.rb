@@ -12,6 +12,13 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    get "dashboard/index"
+    get "transactions/index"
+    get "transactions/show"
+    get "traders/index"
+    get "traders/show"
+    get "traders/edit"
+    get "traders/new"
     resources :trader
     resources :transactions
     root to: "dashboard#index"
