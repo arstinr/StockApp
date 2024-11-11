@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :trader
+    resources :traders
     resources :transactions
     root to: "dashboard#index"
   end
