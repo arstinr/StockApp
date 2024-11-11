@@ -3,6 +3,20 @@ Rails.application.routes.draw do
   devise_for :users
   root to: "home#index"
 
+  #Add only: restrictions later
+
+  namespace :trader do
+    resources :stocks
+    resources :transactions
+    root to: "dashboard#index"
+  end
+
+  namespace :admin do
+    resources :trader
+    resources :transactions
+    root to: "dashboard#index"
+  end
+
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
