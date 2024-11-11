@@ -7,4 +7,7 @@ class User < ApplicationRecord
 
   has_many :stocks
   has_many :transactions
+
+  scope :admins, -> { where(is_admin: true) }
+  scope :traders, -> { where(is_admin: false) }
 end
