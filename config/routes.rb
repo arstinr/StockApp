@@ -1,29 +1,15 @@
 Rails.application.routes.draw do
-  get "home/index"
   devise_for :users
-  root to: "home#index"
 
   #Add only: restrictions later
 
   namespace :trader do
-    get "transactions/index"
-    get "transactions/show"
-    get "transactions/new"
-    get "stocks/index"
-    get "stocks/show"
     resources :stocks
     resources :transactions
     root to: "dashboard#index"
   end
 
   namespace :admin do
-    get "dashboard/index"
-    get "transactions/index"
-    get "transactions/show"
-    get "traders/index"
-    get "traders/show"
-    get "traders/edit"
-    get "traders/new"
     resources :trader
     resources :transactions
     root to: "dashboard#index"
