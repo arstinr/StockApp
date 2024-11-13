@@ -1,0 +1,42 @@
+// name textfield
+// email textfield
+// password textfield
+// password_confirmation textfield
+
+// is admin? checkbox (OR NO NEED)
+//is approved? 
+
+// (balance?)
+
+
+<%= form_with model: @user, class: "form-container" do |form| %>
+    <div class="form-group">
+        <%= form.label :name, class: "form-label" %>
+        <%= form.text_field :name, class: "form-input" %>
+    </div>
+
+    <div class="form-group">
+        <%= form.label :email, class: "form-label" %>
+        <%= form.text_field :email, class: "form-textarea" %>
+    </div>
+
+    <div class="form-group">
+        <%= form.label :password, class: "form-label" %>
+        <%= form.password_field :password, class: "form-input" %>
+    </div>
+
+    <div class="form-group">
+        <%= form.label :password_confirmation, class: "form-label" %>
+        <%= form.password_field :password_confirmation, class: "form-input" %>
+    </div>
+
+    <div class="form-group">
+        <%= form.label :is_approved, class: "form-label" %>
+        <%= form.check_box :is_approved, class: "form-input" %>
+    </div>
+
+
+    <div class="form-group">
+        <%= form.submit "Create Trader Account", class: "form-submit" %>
+    </div>
+<% end %>
