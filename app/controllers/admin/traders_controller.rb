@@ -14,7 +14,7 @@ class Admin::TradersController < ApplicationController
   def create
     @trader = User.new(trader_params)
     @trader.skip_confirmation! #SKIP CONFIRMABLE????
-    
+
     if @trader.save
       redirect_to admin_traders_path, notice: "Trader account succesfully created!"
     else
