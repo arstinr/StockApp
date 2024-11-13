@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_10_235639) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_13_121026) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,7 +49,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_10_235639) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.string "name"
-    t.boolean "is_admin"
+    t.boolean "is_admin", default: false, null: false
     t.decimal "balance"
     t.boolean "is_approved"
     t.datetime "created_at", null: false

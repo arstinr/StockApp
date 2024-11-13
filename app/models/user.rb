@@ -8,6 +8,10 @@ class User < ApplicationRecord
   has_many :stocks
   has_many :transactions
 
+  validates :name, presence: true
+  validates :email, presence: true, format: { with: Devise.email_regexp }
+  validates :password, presence: true
+
   scope :admins, -> { where(is_admin: true) }
   scope :traders, -> { where(is_admin: false) }
 end
