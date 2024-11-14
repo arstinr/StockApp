@@ -2,4 +2,13 @@
 <p>Find me in app/views/admin/traders/index.html.erb</p>
 
 // list all traders
+<ul>
+    <% @traders.each do |trader| %>
+        <li>
+            <%= trader.email %>
+        </li>
+    <% end %>
+</ul>
+
+
 // make into a partial
