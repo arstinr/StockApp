@@ -10,7 +10,10 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :traders
+    resources :traders do
+      get :pending, on: :collection
+      patch :approve, on: :member
+    end
     resources :transactions
     root to: "dashboard#index"
   end

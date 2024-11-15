@@ -28,12 +28,28 @@ class Admin::TradersController < ApplicationController
 
   def update
     @trader = User.traders.find(params[:id])
+    
     if @trader.update(trader_params)
       redirect_to admin_traders_path, notice: "Trader account succesfully created!"
     else
       render :edit, status: :unprocessable_entity
     end
   end
+
+  def pending
+    @pending_traders = User.pending
+  end
+
+  def approve
+    @trader = User.traders.find(params[:id])
+  
+    if @trader.update(is_approved: true)
+      redirect_to admin_traders_path, notice: "Trader approved successfully!"
+    else
+      redirect_to admin_traders_path, alert: "Failed to approve trader. Please try again."
+    end
+  end
+  
 
   private
     def trader_params

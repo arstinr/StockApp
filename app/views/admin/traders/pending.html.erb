@@ -1,0 +1,8 @@
+// list all traders
+<ul>
+    <% @pending_traders.each do |trader| %>
+        <li>
+            <%= trader.email %> || <%= button_to "Approve", approve_admin_trader_path(trader), method: :patch %>
+        </li>
+    <% end %>
+</ul>
