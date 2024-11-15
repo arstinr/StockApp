@@ -3,3 +3,10 @@
 
 //display all transactions from all users (each one clickable to lead to show view)
 //make into partial
+
+
+<% if @transactions.any? %>
+  <p>Add list here</p>
+<% else %>
+  <p>No transactions yet</p>
+<% end %>
