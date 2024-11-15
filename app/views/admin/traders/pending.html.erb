@@ -1,4 +1,4 @@
-// list all traders
+// lists all pending traders
 <ul>
     <% @pending_traders.each do |trader| %>
         <li>
@@ -6,3 +6,5 @@
         </li>
     <% end %>
 </ul>
+
+<%= link_to "Back to All Traders", admin_traders_path, class: "btn btn-secondary" %>
