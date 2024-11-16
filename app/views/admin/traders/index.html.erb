@@ -5,7 +5,7 @@
 <ul>
     <% @traders.each do |trader| %>
         <li>
-            <%= trader.email %>
+            <%= link_to trader.email, admin_trader_path(trader) %>
         </li>
     <% end %>
 </ul>
