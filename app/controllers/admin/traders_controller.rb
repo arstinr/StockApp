@@ -44,6 +44,7 @@ class Admin::TradersController < ApplicationController
     @trader = User.traders.find(params[:id])
   
     if @trader.update(is_approved: true)
+      UserMailer.approval_email(@trader).deliver_now
       redirect_to admin_traders_path, notice: "Trader approved successfully!"
     else
       redirect_to admin_traders_path, alert: "Failed to approve trader. Please try again."
