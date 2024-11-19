@@ -8,6 +8,9 @@ Rails.application.routes.draw do
 
   namespace :trader do
     resources :stocks
+      collection do
+        get :search
+      end
     resources :transactions
     root to: "dashboard#index"
   end

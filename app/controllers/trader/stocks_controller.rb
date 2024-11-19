@@ -1,8 +1,12 @@
 class Trader::StocksController < ApplicationController
   def index
-    @stocks = Stock.all
+    @stocks = current_user.stocks
+  end
+  
+  def show
+    @stock = current_user.stocks.find(params[:id])
   end
 
-  def show
+  def search
   end
 end
