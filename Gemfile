@@ -64,3 +64,5 @@ gem "devise", "~> 4.9"
 group :development do
   gem "rails_live_reload"
 end
+
+gem 'dotenv-rails', :groups => [:development, :test]
