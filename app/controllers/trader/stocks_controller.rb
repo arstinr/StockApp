@@ -8,7 +8,6 @@ class Trader::StocksController < ApplicationController
   end
 
   def search
-
     if params[:symbol].present?
       api = AlphaVantageApi.new
       @stock_data = api.fetch_stock_data(params[:symbol])
@@ -17,6 +16,6 @@ class Trader::StocksController < ApplicationController
     else
       flash[:alert] = "Failed to fetch stock data"
     end
-
   end
+
 end
