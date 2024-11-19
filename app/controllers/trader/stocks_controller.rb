@@ -12,6 +12,8 @@ class Trader::StocksController < ApplicationController
     if params[:symbol].present?
       api = AlphaVantageApi.new
       @stock_data = api.fetch_stock_data(params[:symbol])
+      @stock_symbol = @stock_data['Meta Data']['2. Symbol']
+      @last_open_price = @stock_data['Time Series (5min)'].values.first.dig('1. open')
     else
       flash[:alert] = "Failed to fetch stock data"
     end

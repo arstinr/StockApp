@@ -3,3 +3,9 @@
   <%= form.text_field :symbol %>
   <%= form.submit "Search" %>
 <% end %>
+
+<% if @stock_data %>
+  <h3>Search Results:</h3>
+  <p>Symbol: <%= @stock_symbol %></p>
+  <p>Open Price: <%= @last_open_price %></p>
+<% end %>

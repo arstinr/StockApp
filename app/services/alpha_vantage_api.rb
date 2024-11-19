@@ -1,5 +1,6 @@
 require 'uri'
 require 'net/http'
+require 'json'
 
 class AlphaVantageApi
     BASE_URL = 'https://alpha-vantage.p.rapidapi.com/query'.freeze
@@ -23,6 +24,6 @@ class AlphaVantageApi
         request["x-rapidapi-host"] = 'alpha-vantage.p.rapidapi.com'
 
         response = http.request(request)
-        puts response.read_body
+        JSON.parse(response.body)
     end
 end
