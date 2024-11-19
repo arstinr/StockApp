@@ -1,0 +1,5 @@
+<%= form_with url: search_trader_stocks_path, method: :get, local: true do |form| %>
+  <%= form.label :symbol, "Enter Stock Symbol:" %>
+  <%= form.text_field :symbol %>
+  <%= form.submit "Search" %>
+<% end %>

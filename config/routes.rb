@@ -7,10 +7,11 @@ Rails.application.routes.draw do
   #Add only: restrictions later
 
   namespace :trader do
-    resources :stocks
+    resources :stocks do
       collection do
         get :search
       end
+    end
     resources :transactions
     root to: "dashboard#index"
   end
