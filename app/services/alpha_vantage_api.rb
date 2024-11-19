@@ -5,7 +5,7 @@ class AlphaVantageApi
     BASE_URL = 'https://alpha-vantage.p.rapidapi.com/query'.freeze
 
     def initialize
-        @api_key = "INSERT ENV API KEY HERE"
+        @api_key = ENV["RAPIDAPI_KEY"]
     end
 
     def fetch_stock_data(symbol)
