@@ -47,6 +47,7 @@ class Trader::StocksController < ApplicationController
       stock.save!
 
       current_user.transactions.create!(
+        stock_id: stock.id,
         stock_name: symbol,
         stock_price: price,
         order_quantity: quantity,
@@ -74,6 +75,7 @@ class Trader::StocksController < ApplicationController
 
       #crete transaction record
       current_user.transactions.create!(
+        stock_id: stock.id,
         stock_name: symbol,
         stock_price: price,
         order_quantity: quantity,
