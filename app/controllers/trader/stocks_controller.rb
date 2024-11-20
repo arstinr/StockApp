@@ -1,7 +1,8 @@
 class Trader::StocksController < ApplicationController
   def index
     @stocks = current_user.stocks
-    @balance = current_user.balance
+    # make scope/repeatable
+    @balance = current_user.balance 
   end
 
   def show

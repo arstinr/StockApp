@@ -7,6 +7,4 @@ class Trader::TransactionsController < ApplicationController
     @user_transaction = current_user.transactions.find(params[:id])
   end
 
-  def new
-  end
 end

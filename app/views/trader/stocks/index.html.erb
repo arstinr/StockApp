@@ -2,7 +2,14 @@
 <p>Find me in app/views/trader/stocks/index.html.erb</p>
 
 <% if @stocks.any? %>
-  <p>Add list here</p>
+// list all stocks owned by trader
+  <ul>
+      <% @stocks.each do |stock| %>
+          <li>
+              <%= link_to stock.symbol, trader_stock_path(stock) %>
+          </li>
+      <% end %>
+  </ul>
 <% else %>
   <p>No stocks owned yet</p>
 <% end %>
