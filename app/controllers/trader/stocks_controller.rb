@@ -52,7 +52,7 @@ class Trader::StocksController < ApplicationController
         stock_price: price,
         order_quantity: quantity,
         order_price: total_price,
-        #ADD transaction_type: 'buy'
+        transaction_type: 'buy'
       )
 
       flash[:notice] = "Successfully bought #{quantity} of #{stock_symbol}."
@@ -80,7 +80,7 @@ class Trader::StocksController < ApplicationController
         stock_price: price,
         order_quantity: quantity,
         order_price: total_price,
-        #ADD transaction_type: 'sell'
+        transaction_type: 'sell'
       )
 
       flash[:notice] = "Successfully sold #{quantity} of #{stock_symbol}."
