@@ -1,0 +1,24 @@
+<h1>BALANCE: <%= @balance %></h1>
+
+<%= form_with url: search_trader_stocks_path, method: :get, local: true do |form| %>
+  <%= form.label :symbol, "Enter Stock Symbol:" %>
+  <%= form.text_field :symbol %>
+  <%= form.submit "Search" %>
+<% end %>
+
+<% if @stock_data %>
+  <h3>Search Results:</h3>
+  <p>Symbol: <%= @stock_symbol %></p>
+  <p>Open Price: <%= @last_open_price %></p>
+
+  <%= form_with url: trader_stocks_path, method: :post, local: true do |form| %>
+    <%= form.hidden_field :symbol, value: @stock_symbol %>
+    <%= form.hidden_field :price, value: @last_open_price %>
+
+    <%= form.label :quantity, "Enter Quantity:" %>
+    <%= form.number_field :quantity, min: 1 %>
+
+    <%= form.submit "Buy Stock", name: 'action_type', value: 'buy' %>
+    <%= form.submit "Sell Stock", name: 'action_type', value: 'sell' %>
+  <% end %>
+<% end %>
