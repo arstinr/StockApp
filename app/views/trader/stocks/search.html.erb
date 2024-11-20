@@ -12,8 +12,11 @@
   <%= form_with url: trader_stocks_path, method: :post, local: true do |form| %>
     <%= form.hidden_field :symbol, value: @stock_symbol %>
     <%= form.hidden_field :price, value: @last_open_price %>
+
     <%= form.label :quantity, "Enter Quantity:" %>
     <%= form.number_field :quantity %>
-    <%= form.submit "Buy Stock" %>
+
+    <%= form.submit "Buy Stock", name: 'action_type', value: 'buy' %>
+    <%= form.submit "Sell Stock", name: 'action_type', value: 'sell' %>
   <% end %>
 <% end %>
