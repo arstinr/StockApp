@@ -53,7 +53,7 @@ class Trader::StocksController < ApplicationController
         order_price: total_price,
         #ADD transaction_type: 'buy'
       )
-      
+
       flash[:notice] = "Successfully bought #{quantity} of #{stock_symbol}."
     else
       flash[:alert] = "Not enough balance :<<<"
@@ -61,6 +61,31 @@ class Trader::StocksController < ApplicationController
   end
 
   def handle_sell(symbol, price, quantity)
+    stock = current_user.stocks.find_by(symbol: symbol)
+
+    if stock.present? && stock.quantity >= quantity
+      total_price = price * quantity
+
+      stock.quantity -= quantity
+      stock.save!
+
+      #add to balance
+      current_user.update(balance: current_user.balance + total_price)
+
+      #crete transaction record
+      current_user.transactions.create!(
+        stock_name: symbol,
+        stock_price: price,
+        order_quantity: quantity,
+        order_price: total_price,
+        #ADD transaction_type: 'sell'
+      )
+
+      flash[:notice] = "Successfully sold #{quantity} of #{stock_symbol}."
+    else
+      flash[:alert] = "Not enough quantity :<<<"
+    end
+
   end
 
 end
