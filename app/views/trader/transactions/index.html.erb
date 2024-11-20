@@ -2,7 +2,14 @@
 <p>Find me in app/views/trader/transactions/index.html.erb</p>
 
 <% if @user_transactions.any? %>
-  <p>Add list here</p>
+// list all transactions of trader
+  <ul>
+      <% @user_transactions.each do |transaction| %>
+          <li>
+              <%= link_to transaction.id, trader_transaction_path(transaction) %>
+          </li>
+      <% end %>
+  </ul>
 <% else %>
   <p>No transactions yet</p>
 <% end %>
