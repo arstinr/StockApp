@@ -1,6 +1,7 @@
 class Trader::StocksController < ApplicationController
   def index
     @stocks = current_user.stocks
+    @balance = current_user.balance
   end
 
   def show
@@ -8,6 +9,8 @@ class Trader::StocksController < ApplicationController
   end
 
   def search
+    @balance = current_user.balance
+
     if params[:symbol].present?
       api = AlphaVantageApi.new
       @stock_data = api.fetch_stock_data(params[:symbol])
@@ -33,6 +36,9 @@ class Trader::StocksController < ApplicationController
     end
 
     redirect_to trader_stocks_path
+    rescue ActiveRecord::RecordInvalid => e
+    flash[:alert] = "Transaction failed: #{e.record.errors.full_messages.join(', ')}"
+    redirect_to trader_stocks_path
   end
 
   private
@@ -46,6 +52,7 @@ class Trader::StocksController < ApplicationController
       current_user.update(balance: current_user.balance - total_price)
 
       stock = current_user.stocks.find_or_initialize_by(symbol: symbol)
+      stock.quantity ||= 0
       stock.quantity += quantity
       stock.save!
 
@@ -55,10 +62,10 @@ class Trader::StocksController < ApplicationController
         stock_price: price,
         order_quantity: quantity,
         order_price: total_price,
-        transaction_type: 'buy'
+        action_type: 'buy'
       )
 
-      flash[:notice] = "Successfully bought #{quantity} of #{stock_symbol}."
+      flash[:notice] = "Successfully bought #{quantity} of #{symbol}."
     else
       flash[:alert] = "Not enough balance :<<<"
     end
@@ -86,10 +93,10 @@ class Trader::StocksController < ApplicationController
         stock_price: price,
         order_quantity: quantity,
         order_price: total_price,
-        transaction_type: 'sell'
+        action_type: 'sell'
       )
 
-      flash[:notice] = "Successfully sold #{quantity} of #{stock_symbol}."
+      flash[:notice] = "Successfully sold #{quantity} of #{symbol}."
     else
       flash[:alert] = "Not enough quantity :<<<"
     end

@@ -4,5 +4,4 @@ class Stock < ApplicationRecord
 
   # validates :symbol, presence: true, uniqueness: true
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }
-  validates :stock_price, numericality: { greater_than_or_equal_to: 0 }
 end
