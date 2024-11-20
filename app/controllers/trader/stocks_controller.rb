@@ -25,9 +25,9 @@ class Trader::StocksController < ApplicationController
     action_type = params[:action_type]
 
     if action_type == 'buy'
-      handle_buy(stock_symbol, current_price, quantity)
+      handle_buy(symbol, price, quantity)
     elsif action_type == 'sell'
-      handle_sell(stock_symbol, current_price, quantity)
+      handle_sell(symbol, price, quantity)
     else
       flash[:alert] = "Invalid action. Please try again."
     end
@@ -37,12 +37,15 @@ class Trader::StocksController < ApplicationController
 
   private
   def handle_buy(symbol, price, quantity)
+    price = price.to_f
+    quantity = quantity.to_i
+
     total_price = price * quantity
 
     if current_user.balance >= total_price
       current_user.update(balance: current_user.balance - total_price)
 
-      stock = current_user.stock.find_or_initialize_by(symbol: stock_symbol)
+      stock = current_user.stocks.find_or_initialize_by(symbol: symbol)
       stock.quantity += quantity
       stock.save!
 
@@ -62,6 +65,9 @@ class Trader::StocksController < ApplicationController
   end
 
   def handle_sell(symbol, price, quantity)
+    price = price.to_f
+    quantity = quantity.to_i
+
     stock = current_user.stocks.find_by(symbol: symbol)
 
     if stock.present? && stock.quantity >= quantity
