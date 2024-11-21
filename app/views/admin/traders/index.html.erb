@@ -1,17 +1,20 @@
 <h1>Admin::Traders#index</h1>
 <p>Find me in app/views/admin/traders/index.html.erb</p>
 
+<%= link_to "New Trader", new_admin_trader_path %>
+
 // list all traders
 <ul>
     <% @traders.each do |trader| %>
         <li>
             <%= link_to trader.email, admin_trader_path(trader) %>
+            <%= link_to "Edit", edit_admin_trader_path(trader) %>
         </li>
     <% end %>
 </ul>
 
 //conditional
 
-// list unapproved traders? (partial?)
-
+// list pending traders? (partial?)
+<%= link_to "Pending Traders", pending_admin_traders_path %>
 

@@ -2,12 +2,17 @@
 <p>Find me in app/views/admin/transactions/index.html.erb</p>
 <%= link_to 'Back to Dashboard', admin_root_path %>
 
-//display all transactions from all users (each one clickable to lead to show view)
+//display all transactions from all users (no need for show)
 //make into partial
 
 
 <% if @transactions.any? %>
-  <p>Add list here</p>
+  //loop to display all transactions
+  <% @transactions.each do |transaction| %>
+    <%= transaction.stock_name %>
+    <%= transaction.order_quantity %>
+    <%= transaction.order_price %>
+  <% end %>
 <% else %>
   <p>No transactions yet</p>
 <% end %>

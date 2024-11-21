@@ -6,7 +6,9 @@
   <ul>
       <% @user_transactions.each do |transaction| %>
           <li>
-              <%= link_to transaction.id, trader_transaction_path(transaction) %>
+              <%= transaction.stock_name %>
+              <%= transaction.order_quantity %>
+              <%= transaction.order_price %>
           </li>
       <% end %>
   </ul>
