@@ -45,6 +45,9 @@ class Admin::TradersController < ApplicationController
   
     if @trader.update(is_approved: true)
       UserMailer.approval_email(@trader).deliver_now
+
+      @trader.update(balance: 10000)
+
       redirect_to admin_traders_path, notice: "Trader approved successfully!"
     else
       redirect_to admin_traders_path, alert: "Failed to approve trader. Please try again."
