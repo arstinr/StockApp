@@ -1,20 +1,29 @@
-<h1>Admin::Traders#index</h1>
-<p>Find me in app/views/admin/traders/index.html.erb</p>
+<div class="admin-container">
+  <div class="admin-header">
+    <h1 class="admin-title">Traders Management</h1>
+    <%= link_to "New Trader", new_admin_trader_path, class: "primary-button" %>
+  </div>
 
-<%= link_to "New Trader", new_admin_trader_path %>
+  <div class="admin-tabs">
+    <%= link_to "All Traders", admin_traders_path, class: "tab active" %>
+    <%= link_to "Pending Approvals", pending_admin_traders_path, class: "tab" %>
+  </div>
 
-// list all traders
-<ul>
+  <div class="traders-grid">
     <% @traders.each do |trader| %>
-        <li>
-            <%= link_to trader.email, admin_trader_path(trader) %>
-            <%= link_to "Edit", edit_admin_trader_path(trader) %>
-        </li>
+      <div class="trader-card">
+        <div class="trader-info">
+          <h3><%= trader.name || trader.email %></h3>
+          <span class="status-badge <%= trader.is_approved? ? 'approved' : 'pending' %>">
+            <%= trader.is_approved? ? 'Approved' : 'Pending' %>
+          </span>
+        </div>
+        <div class="trader-actions">
+          <%= link_to "View", admin_trader_path(trader), class: "action-link" %>
+          <%= link_to "Edit", edit_admin_trader_path(trader), class: "action-link" %>
+        </div>
+      </div>
     <% end %>
-</ul>
-
-//conditional
-
-// list pending traders? (partial?)
-<%= link_to "Pending Traders", pending_admin_traders_path %>
+  </div>
+</div>
 

@@ -18,12 +18,49 @@
   </head>
 
   <body>
-    <% if flash[:notice] %>
-      <div class="flash notice"><%= flash[:notice] %></div>
+    <% if user_signed_in? %>
+      <div class="layout">
+        <aside class="sidebar">
+          <h2>Menu</h2>
+          <ul>
+            <% if current_user.is_admin? %>
+              <li><%= link_to 'Dashboard', admin_root_path %></li>
+              <li><%= link_to 'Traders', admin_traders_path %></li>
+              <li><%= link_to 'Transactions', admin_transactions_path %></li>
+            <% else %>
+              <li><%= link_to 'Home', trader_root_path %></li>
+              <li><%= link_to 'Trade', search_trader_stocks_path %></li>
+              <li><%= link_to 'Portfolio', trader_stocks_path %></li>
+              <li><%= link_to 'Transactions', trader_transactions_path %></li>
+            <% end %>
+          </ul>
+          <div class="logout-container">
+            <%= link_to destroy_user_session_path, 
+                class: "logout-button",
+                data: { "turbo-method": :delete } do %>
+              Log out
+            <% end %>
+          </div>
+        </aside>
+
+        <main class="content">
+          <% if flash[:notice] %>
+            <div class="flash notice"><%= flash[:notice] %></div>
+          <% end %>
+          <% if flash[:alert] %>
+            <div class="flash alert"><%= flash[:alert] %></div>
+          <% end %>
+          <%= yield %>
+        </main>
+      </div>
+    <% else %>
+      <% if flash[:notice] %>
+        <div class="flash notice"><%= flash[:notice] %></div>
+      <% end %>
+      <% if flash[:alert] %>
+        <div class="flash alert"><%= flash[:alert] %></div>
+      <% end %>
+      <%= yield %>
     <% end %>
-    <% if flash[:alert] %>
-      <div class="flash alert"><%= flash[:alert] %></div>
-    <% end %>
-    <%= yield %>
   </body>
 </html>

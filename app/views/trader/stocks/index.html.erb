@@ -1,15 +1,21 @@
-<h1>Trader::Stocks#index</h1>
-<p>Find me in app/views/trader/stocks/index.html.erb</p>
+<div class="page-container">
+  <h1 class="page-title">My Portfolio</h1>
 
-<% if @stocks.any? %>
-// list all stocks owned by trader
-  <ul>
+  <% if @stocks.any? %>
+    <div class="stocks-grid">
       <% @stocks.each do |stock| %>
-          <li>
-              <%= link_to stock.symbol, trader_stock_path(stock) %>
-          </li>
+        <div class="stock-card">
+          <div class="stock-card-header">
+            <h2 class="stock-symbol"><%= stock.symbol %></h2>
+            <span class="stock-quantity"><%= pluralize(stock.quantity, 'share') %></span>
+          </div>
+        </div>
       <% end %>
-  </ul>
-<% else %>
-  <p>No stocks owned yet</p>
-<% end %>
+    </div>
+  <% else %>
+    <div class="empty-state">
+      <p>No stocks in your portfolio yet</p>
+      <%= link_to "Start Trading", search_trader_stocks_path, class: "primary-button" %>
+    </div>
+  <% end %>
+</div>

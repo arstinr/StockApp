@@ -1,15 +1,39 @@
-<h1>Trader::Dashboard#index</h1>
-<p>Find me in app/views/trader/dashboard/index.html.erb</p>
+<div class="dashboard-container">
+  <div class="welcome-section">
+    <h1>Welcome, <%= @trader.email %></h1>
+  </div>
 
-<%= link_to "Log out", destroy_user_session_path, data: { "turbo-method": :delete } %>
+  <div class="status-card <%= @trader.is_approved? ? 'approved' : 'pending' %>">
+    <div class="status-icon">
+      <% if @trader.is_approved? %>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon">
+          <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+        </svg>
+      <% else %>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon">
+          <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z" clip-rule="evenodd" />
+        </svg>
+      <% end %>
+    </div>
+    <div class="status-content">
+      <h2><%= @trader.is_approved? ? "Account Approved" : "Pending Approval" %></h2>
+      <p>
+        <% if @trader.is_approved? %>
+          Your account has been approved. You can now start trading!
+        <% else %>
+          Your account is currently under review. We'll notify you once it's approved.
+        <% end %>
+      </p>
+    </div>
+  </div>
 
-<p><%= @trader.email %></p>
-
-<% if @trader.is_approved? %>
-  <p>Your account has been approved!</p>
-  <p>Display stocks partial here</p>
-<% else %>
-  <p>Your account is pending approval.</p>
-<% end %>
-
-<%= render partial: 'trader/stocks/search' %>
+  <% if @trader.is_approved? %>
+    <div class="quick-stats">
+      <div class="stat-card">
+        <h3>Balance</h3>
+        <p class="stat-value">$<%= number_with_delimiter(@trader.balance, delimiter: ',') %></p>
+      </div>
+      <!-- Add more stat cards as needed -->
+    </div>
+  <% end %>
+</div>

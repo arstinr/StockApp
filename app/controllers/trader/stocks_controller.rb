@@ -1,4 +1,6 @@
 class Trader::StocksController < ApplicationController
+  before_action :ensure_approved_trader, only: [:search, :create]
+
   def index
     @stocks = current_user.stocks
     # make scope/repeatable
@@ -15,10 +17,12 @@ class Trader::StocksController < ApplicationController
     if params[:symbol].present?
       api = AlphaVantageApi.new
       @stock_data = api.fetch_stock_data(params[:symbol])
-      @stock_symbol = @stock_data['Meta Data']['2. Symbol']
-      @last_open_price = @stock_data['Time Series (5min)'].values.first.dig('1. open')
-    else
-      flash[:alert] = "Failed to fetch stock data"
+      if @stock_data && @stock_data['Meta Data']
+        @stock_symbol = @stock_data['Meta Data']['2. Symbol']
+        @last_open_price = @stock_data['Time Series (5min)'].values.first.dig('1. open')
+      else
+        flash[:alert] = "Failed to fetch stock data"
+      end
     end
   end
 
@@ -102,6 +106,13 @@ class Trader::StocksController < ApplicationController
       flash[:alert] = "Not enough quantity :<<<"
     end
 
+  end
+
+  def ensure_approved_trader
+    unless current_user.is_approved?
+      flash[:alert] = "Your account needs to be approved before you can trade stocks."
+      redirect_to trader_root_path
+    end
   end
 
 end

@@ -1,11 +1,52 @@
-<h1>Admin::Dashboard#index</h1>
-<p>Find me in app/views/admin/dashboard/index.html.erb</p>
+<div class="admin-container">
+  <div class="admin-header">
+    <h1 class="admin-title">Admin Dashboard</h1>
+  </div>
 
-<%= link_to "Log out", destroy_user_session_path, data: { "turbo-method": :delete } %>
+  <div class="admin-stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">👥</div>
+      <h3>Total Traders</h3>
+      <p class="stat-value"><%= User.traders.count %></p>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">⏳</div>
+      <h3>Pending Approvals</h3>
+      <p class="stat-value"><%= User.pending.count %></p>
+      <% if User.pending.count > 0 %>
+        <div class="stat-action">
+          <%= link_to "Review Pending", pending_admin_traders_path, class: "stat-link" %>
+        </div>
+      <% end %>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📊</div>
+      <h3>Total Transactions</h3>
+      <p class="stat-value"><%= Transaction.count %></p>
+    </div>
+  </div>
 
-// render trader partials here
-// render transactions partials here
+  <div class="section-header">
+    <h2>Recent Activity</h2>
+  </div>
 
-
-<%= link_to "All Transactions",admin_transactions_path %>
-<%= link_to "All Traders",admin_traders_path %>
+  <div class="recent-activity">
+    <% Transaction.order(created_at: :desc).limit(5).each do |transaction| %>
+      <div class="activity-item">
+        <div class="activity-content">
+          <span class="transaction-type <%= transaction.action_type %>">
+            <%= transaction.action_type.upcase %>
+          </span>
+          <span class="activity-text">
+            <%= transaction.user.email %> <%= transaction.action_type %>
+            <%= transaction.order_quantity %> shares of <%= transaction.stock_name %>
+            at $<%= number_with_precision(transaction.order_price, precision: 2) %>
+          </span>
+        </div>
+        <span class="activity-time">
+          <%= time_ago_in_words(transaction.created_at) %> ago
+        </span>
+      </div>
+    <% end %>
+  </div>
+</div>

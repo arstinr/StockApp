@@ -1,13 +1,76 @@
-<h1>Admin::Traders#show</h1>
-<p>Find me in app/views/admin/traders/show.html.erb</p>
+<div class="admin-container">
+  <div class="admin-header">
+    <h1 class="admin-title">Trader Details</h1>
+    <div class="header-actions">
+      <%= link_to "Edit", edit_admin_trader_path(@trader), class: "primary-button" %>
+      <%= link_to "Back", admin_traders_path, class: "secondary-button" %>
+    </div>
+  </div>
 
-//trader details here  (name email isapproved)
+  <div class="trader-details-card">
+    <div class="trader-profile">
+      <div class="profile-header">
+        <h2><%= @trader.name || "No name provided" %></h2>
+        <span class="status-badge <%= @trader.is_approved? ? 'approved' : 'pending' %>">
+          <%= @trader.is_approved? ? 'Approved' : 'Pending' %>
+        </span>
+      </div>
+      
+      <div class="profile-info">
+        <div class="info-group">
+          <label>Email</label>
+          <p><%= @trader.email %></p>
+        </div>
+        <div class="info-group">
+          <label>Balance</label>
+          <p>$<%= number_with_delimiter(@trader.balance) %></p>
+        </div>
+        <div class="info-group">
+          <label>Member Since</label>
+          <p><%= @trader.created_at.strftime("%B %d, %Y") %></p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<p>NAME: <%= @trader.name %></p>
-<p>EMAIL: <%= @trader.email %></p>
-<p>Is Approved?: Insert here </p>
-
-<%= link_to "Edit", edit_admin_trader_path(@trader) %>
-
-
-// insert transactions here/transaction partial?
+  <div class="section-header">
+    <h2>Transaction History</h2>
+  </div>
+  
+  <% if @trader.transactions.any? %>
+    <div class="transactions-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Stock</th>
+            <th>Type</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @trader.transactions.each do |transaction| %>
+            <tr>
+              <td><%= transaction.created_at.strftime("%B %d, %Y") %></td>
+              <td><%= transaction.stock_name %></td>
+              <td>
+                <span class="transaction-type <%= transaction.action_type %>">
+                  <%= transaction.action_type.upcase %>
+                </span>
+              </td>
+              <td><%= transaction.order_quantity %></td>
+              <td>$<%= number_with_precision(transaction.order_price, precision: 2) %></td>
+              <td>$<%= number_with_precision(transaction.order_price * transaction.order_quantity, precision: 2) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <div class="empty">
+      <p>No transactions available.</p>
+    </div>
+  <% end %>
+</div>

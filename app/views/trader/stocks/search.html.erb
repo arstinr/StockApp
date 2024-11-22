@@ -1,25 +1,37 @@
-<h1>BALANCE: <%= @balance %></h1>
+<div class="page-container">
+  <h1 class="page-title">Search & Trade Stocks</h1>
+  
+  <div class="search-container">
+    <%= form_with url: search_trader_stocks_path, method: :get, local: true, class: "search-form" do |form| %>
+      <div class="field">
+        <%= form.label :symbol, "Enter Stock Symbol:" %>
+        <%= form.text_field :symbol, class: "search-input", placeholder: "e.g., AAPL" %>
+      </div>
+      <%= form.submit "Search", class: "search-button" %>
+    <% end %>
+  </div>
 
-<%= form_with url: search_trader_stocks_path, method: :get, local: true do |form| %>
-  <%= form.label :symbol, "Enter Stock Symbol:" %>
-  <%= form.text_field :symbol %>
-  <%= form.submit "Search" %>
-<% end %>
+  <% if @stock_data %>
+    <div class="stock-data-card">
+      <div class="stock-info">
+        <h2 class="stock-symbol"><%= @stock_symbol %></h2>
+        <h3 class="stock-price">$<%= @last_open_price %></h3>
+      </div>
 
-<% if @stock_data %>
-  <h3>Search Results:</h3>
-  <p>Symbol: <%= @stock_symbol %></p>
-  <p>Open Price: <%= @last_open_price %></p>
+      <%= form_with url: trader_stocks_path, method: :post, local: true, class: "trade-form" do |form| %>
+        <%= form.hidden_field :symbol, value: @stock_symbol %>
+        <%= form.hidden_field :price, value: @last_open_price %>
 
-  <%= form_with url: trader_stocks_path, method: :post, local: true do |form| %>
-    <%= form.hidden_field :symbol, value: @stock_symbol %>
-    <%= form.hidden_field :price, value: @last_open_price %>
+        <div class="field">
+          <%= form.label :quantity, "Quantity:" %>
+          <%= form.number_field :quantity, min: 1, class: "quantity-input" %>
+        </div>
 
-    <%= form.label :quantity, "Enter Quantity:" %>
-    <%= form.label :quantity %>
-    <%= form.number_field :quantity, min: 1 %>
-
-    <%= form.submit "Buy Stock", name: 'action_type', value: 'buy' %>
-    <%= form.submit "Sell Stock", name: 'action_type', value: 'sell' %>
+        <div class="action-buttons">
+          <%= form.submit "Buy Stock", name: 'action_type', value: 'buy', class: 'buy-button' %>
+          <%= form.submit "Sell Stock", name: 'action_type', value: 'sell', class: 'sell-button' %>
+        </div>
+      <% end %>
+    </div>
   <% end %>
-<% end %>
+</div>
